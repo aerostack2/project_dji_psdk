@@ -17,10 +17,9 @@
       # Outdoor (GPS) Raw Odometry
       plugin_name: "raw_odometry"
       raw_odometry:
-        use_gps: true  # Anchor earth at a GPS datum. By default the first fix received becomes the datum.
+        use_gps: true  # Anchor tf tree at a GPS first measurement.
 
-        # # Datum pinned to a surveyed point instead of the first fix, so earth lands in the
-        # # same place on every flight and GPS waypoints stay comparable across sessions.
+        # # Tf tree is anchored at manually set GPS coordinates.
         # gps_origin:
         #   set_origin: "manual"
         #   coordinates:
@@ -28,48 +27,9 @@
         #     longitude: -3.7038
         #     altitude: 667.0
 
-        # # Datum supplied at runtime by the set_origin service (drone.gps.set_origin in
-        # # as2_python_api). earth->map is not published until it is called, so the TF tree
-        # # stays incomplete until then.
+        # # Tf tree is anchored at GPS coordinates served by a service. The service must be called by the user.
         # gps_origin:
         #   set_origin: "service"
-
-        # # Pin map explicitly instead of placing it at the first fix. Composes with use_gps:
-        # # GPS still supplies the datum served by get_origin.
-        # earth_map_transform:
-        #   set_earth_map: true
-        #   position:
-        #     x: 0.0
-        #     y: 0.0
-        #     z: 0.0
-        #   orientation:
-        #     roll: 0.0
-        #     pitch: 0.0
-        #     yaw: 0.0
-
-      # # IMU fused with odometry (simple_ekf):
-      # # Might need sensor_measurements/imu and covariance tuning.
-      # plugin_name: "simple_ekf"
-      # simple_ekf:
-      #   earth_map_transform:
-      #     static_tf: true  
-      #     set_earth_map: true  # Manually set earth to map transform if true.
-      #     position:
-      #       x: 0.0
-      #       y: 0.0
-      #       z: 0.0
-      #     orientation:
-      #       roll: 0.0
-      #       pitch: 0.0
-      #       yaw: 0.0
-      #   update_topics: ["odom"]
-      #   odom:
-      #     topic: "sensor_measurements/odom"
-      #     type: "nav_msgs/msg/Odometry"
-      #     set_earth_map: false  # Dead-reckoned: must not define the world origin.
-      #     use_message_covariance: true
-      #     position_multiplier: [1.0, 1.0, 1.0]
-      #     orientation_multiplier: [1.0, 1.0, 1.0]
 
   # Behaviors Motion
   TakeoffBehavior:
