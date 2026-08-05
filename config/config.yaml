@@ -14,17 +14,22 @@
   # State Estimator
   state_estimator:
     ros__parameters:
-      # # Indoor Raw Odometry
-      # plugin_name: "raw_odometry"
-      # # Indoor Motion Capture
-      # plugin_name: "mocap_pose"
-      # mocap_topic: "/mocap/rigid_bodies"
-      # twist_smooth_filter_cte: 0.1
-      # orientation_smooth_filter_cte: 0.1
       # Outdoor (GPS) Raw Odometry
       plugin_name: "raw_odometry"
-      use_gps: true
-      set_origin_on_start: true
+      raw_odometry:
+        use_gps: true  # Anchor tf tree at a GPS first measurement.
+
+        # # Tf tree is anchored at manually set GPS coordinates.
+        # gps_origin:
+        #   set_origin: "manual"
+        #   coordinates:
+        #     latitude: 40.4168
+        #     longitude: -3.7038
+        #     altitude: 667.0
+
+        # # Tf tree is anchored at GPS coordinates served by a service. The service must be called by the user.
+        # gps_origin:
+        #   set_origin: "service"
 
   # Behaviors Motion
   TakeoffBehavior:
